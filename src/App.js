@@ -1,14 +1,16 @@
+import { useEffect, useState } from 'react';
 import './App.css';
-import Bottom from './components/Bottom';
-import Top from './components/Top';
+import axios from 'axios';
 
 function App() {
-  return (
-    <div>
-      <Top />
-      <Bottom />
-    </div>
-  );
+  const [hello, setHello] = useState('');
+
+  useEffect(() => {
+    axios.get('/test').then((res) => {
+      setHello(res.data);
+    });
+  }, []);
+  return <div className="App">백엔드 데이터 : {hello}</div>;
 }
 
 export default App;
