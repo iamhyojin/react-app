@@ -1,16 +1,17 @@
-import { useEffect, useState } from 'react';
+import { Route, Routes } from 'react-router-dom';
 import './App.css';
-import axios from 'axios';
+import JoinPage from './pages/JoinPage';
+import LoginPage from './pages/LoginPage';
 
 function App() {
-  const [hello, setHello] = useState('');
-
-  useEffect(() => {
-    axios.get('/test').then((res) => {
-      setHello(res.data);
-    });
-  }, []);
-  return <div className="App">백엔드 데이터 : {hello}</div>;
+  return (
+    <div>
+      <Routes>
+        <Route path="/" element={<LoginPage />} />
+        <Route path="/join" element={<JoinPage />} />
+      </Routes>
+    </div>
+  );
 }
 
 export default App;
