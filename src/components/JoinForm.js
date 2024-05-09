@@ -11,14 +11,14 @@ const JoinPage = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (password !== confirmPassword) {
       setErrorMessage('비밀번호가 일치하지 않습니다.');
       return;
     } else {
-      axios
+      await axios
         .post('/api/join', {
           name: name,
           email: email,
@@ -34,11 +34,6 @@ const JoinPage = () => {
         })
         .catch((error) => {
           console.log('error : {}', error);
-          if (error.response && error.response.data) {
-            setErrorMessage(error.response.data);
-          } else {
-            setErrorMessage('알 수 없는 오류');
-          }
         });
     }
   };

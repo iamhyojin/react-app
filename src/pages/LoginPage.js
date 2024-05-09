@@ -2,10 +2,15 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import '../style/Login.css';
 import { Link, Route, Router } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { loginSuccess } from '../actions/authActions';
 
 const LoginPage = () => {
+  const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
@@ -17,14 +22,21 @@ const LoginPage = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    try {
-      const response = await axios.post('/api/login', { email, password });
-      console.log(response.data);
-      // 로그인 성공 후의 동작 처리
-    } catch (error) {
-      console.error('Login failed:', error);
-      // 로그인 실패 시의 처리
-    }
+    await axios
+      .post('/api/login', {
+        email: email,
+        password: password,
+      })
+      .then((res) => {
+        console.log('데이터 :: ' + res);
+        alert('로그인 완료');
+        dispatch(loginSuccess(email));
+        navigate('/home');
+      })
+      .catch((error) => {
+        console.log('error : {}', error);
+        alert(error.response.data);
+      });
   };
 
   return (

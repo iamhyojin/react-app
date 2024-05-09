@@ -1,14 +1,12 @@
-import { combineReducers } from 'redux';
-import { persistReducer } from 'redux-persist';
-import user from '../reducers/reducer';
-import storage from 'redux-persist/lib/storage';
+import { configureStore } from '@reduxjs/toolkit';
+import authReducer from '../reducers/authReducer';
+import { thunk } from 'redux-thunk';
 
-const persistConfig = {
-  key: 'root',
-  storage, // local storage에 저장.
-  whitelist: ['user'],
-};
+const store = configureStore({
+  reducer: {
+    auth: authReducer,
+  },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk),
+});
 
-const rootReducer = combineReducers({ user });
-
-export default persistReducer(persistConfig, rootReducer);
+export default store;
