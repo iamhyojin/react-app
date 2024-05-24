@@ -22,21 +22,30 @@ const LoginPage = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    await axios
-      .post('/api/login', {
-        email: email,
-        password: password,
-      })
-      .then((res) => {
-        console.log('데이터 :: ' + res);
-        alert('로그인 완료');
-        dispatch(loginSuccess(email));
-        navigate('/home');
-      })
-      .catch((error) => {
-        console.log('error : {}', error);
-        alert(error.response.data);
-      });
+    try {
+      const response = await axios.post('/api/login', { email, password });
+      dispatch(loginSuccess(email));
+      navigate('/home');
+    } catch (error) {
+      console.error('Login failed:', error);
+      alert('Login failed');
+    }
+
+    // await axios
+    //   .post('/api/login', {
+    //     email: email,
+    //     password: password,
+    //   })
+    //   .then((res) => {
+    //     console.log('데이터 :: ' + res);
+    //     alert('로그인 완료');
+    //     dispatch(loginSuccess(email));
+    //     navigate('/home');
+    //   })
+    //   .catch((error) => {
+    //     console.log('error : {}', error);
+    //     alert(error.response.data);
+    //   });
   };
 
   return (
